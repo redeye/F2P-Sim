@@ -1,81 +1,235 @@
-# Simple 2D RPG Game
+# F2P Game Mechanics Simulator
 
-A simple 2D RPG game built using **HTML**, **CSS**, and **JavaScript**. The game features dungeon crawling, combat with enemies, and progressing through levels as the player gains experience and levels up.
+A web-based simulator to model and analyse player behaviour in free-to-play (F2P) game environments. This tool allows you to explore how different game mechanics, monetisation strategies, and player dynamics impact overall game performance, player retention, and revenue generation.
+
+## Table of Contents
+
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+  - [Running the Simulation](#running-the-simulation)
+  - [Adjusting Parameters](#adjusting-parameters)
+  - [Presets](#presets)
+- [Simulation Outputs](#simulation-outputs)
+  - [Dashboard Metrics](#dashboard-metrics)
+  - [Charts](#charts)
+  - [Player Details](#player-details)
+- [Customization](#customization)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+
+---
 
 ## Features
-- Procedurally generated dungeons with dynamic difficulty scaling based on the player’s level.
-- Multiple enemy types (Goblin, Orc, Dragon), each with unique stats and behaviors.
-- Combat system with a dice-based mechanic for attack and defense.
-- Interactive objects such as keys, chests, and portals.
-- Experience-based leveling system, where player stats increase as they progress through the game.
-- Randomly generated names and descriptions for enemies and objects to add immersion.
 
-## Installation
-To run this game locally, follow these steps:
+- **Adjustable Parameters:** Modify a wide range of parameters to simulate different game scenarios.
+- **Player Types:** Categorise players into Free Players, Spenders, and High Spenders (Whales).
+- **Adaptive Behaviour:** Players adjust their behaviour over time based on experiences and satisfaction levels.
+- **Visualisations:** Real-time dashboard, charts, and player representations.
+- **Presets:** Quickly load predefined scenarios to explore common game dynamics.
 
-1. **Clone the repository** (or download the files directly):
+---
+
+## Getting Started
+
+### Prerequisites
+
+- A modern web browser (e.g., Chrome, Firefox, Edge).
+- Internet connection (required for loading external libraries via CDN).
+
+### Installation
+
+1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/redeye/F2P-Sim.git
    ```
 
-2. **Open the game**:
-   - Navigate to the folder where you cloned/downloaded the files.
-   - Open `index.html` in your browser.
+2. **Navigate to the Project Directory:**
 
-No additional dependencies are required, and the game runs entirely in the browser.
+   ```bash
+   cd f2psim
+   ```
 
-## Gameplay Instructions
+3. **Project Structure:**
 
-1. **Movement**:
-   - Use the arrow keys (`↑`, `↓`, `←`, `→`) to move your character around the dungeon.
-   - Avoid walls and try to find keys and open chests to progress.
+   - `index.html`: The main HTML file.
+   - `styles.css`: Stylesheet for the application.
+   - `simulation.js`: JavaScript code for the simulation.
+   - `README.md`: This file.
 
-2. **Objectives**:
-   - **Keys**: Collect keys (`🔑`) to open chests (`📦`).
-   - **Chests**: Some chests contain a magical scroll, which is required to unlock the portal.
-   - **Portal**: Find the portal (`🚪`) and use the magical scroll to progress to the next dungeon.
+---
 
-3. **Combat**:
-   - When encountering an enemy (`👺` for Goblins, `🧟‍♂️` for Orcs, `🐉` for Dragons), you will enter combat.
-   - Roll the dice to attack the enemy and defend yourself.
-   - The battle continues until either the enemy or the player is defeated.
+## Usage
 
-4. **Leveling Up**:
-   - Defeat enemies, collect items, and complete dungeons to gain experience (`XP`).
-   - Upon reaching certain experience thresholds, the player levels up, increasing their attack, defense, and health.
+### Running the Simulation
 
-5. **Dungeon Progression**:
-   - Once you defeat the enemies and collect the magical scroll, you can use the portal to advance to the next dungeon.
-   - Each new dungeon has stronger enemies and more complex challenges.
+1. **Open `index.html`:**
 
-## Game Components
+   - Open the `index.html` file in your web browser.
 
-### Player
-- The player starts with a health of 100, attack power of 10, and defense of 5.
-- As the player gains XP and levels up, their stats improve.
-- The player’s inventory holds keys and scrolls required for progression.
+2. **Select a Preset or Adjust Parameters:**
 
-### Enemies
-- **Goblins (`👺`)**: Randomly move around the map, weaker than other enemies.
-- **Orcs (`🧟‍♂️`)**: Chase the player, dealing more damage than Goblins.
-- **Dragons (`🐉`)**: Guard important keys and portals, very powerful but move strategically.
+   - Use the **Preset** dropdown menu to select a predefined scenario.
+   - Adjust the **Player Count** and **Simulation Days** as needed.
 
-### Items
-- **Keys (`🔑`)**: Required to open chests.
-- **Chests (`📦`)**: May contain a scroll or a potion or be empty.
-- **Portals (`🚪`)**: Used to progress to the next dungeon, unlocked by using a scroll.
+3. **Run the Simulation:**
 
-## Game Flow
-1. Start in a randomly generated dungeon.
-2. Explore the dungeon, avoid walls, and find keys to open chests.
-3. Battle enemies as you encounter them.
-4. Find the scroll to unlock the portal and progress to the next dungeon.
-5. Repeat, with increasing difficulty, as the player levels up.
+   - Click the **"Run Simulation"** button to start.
 
+### Adjusting Parameters
 
-## Contributing
-Feel free to submit issues or pull requests to improve the game. Contributions are welcome!
+- **Simulation Settings:**
+
+  - **Player Count:** Number of players in the simulation.
+  - **Simulation Days:** Duration of the simulation in days.
+
+- **Player Type Ratios (%):**
+
+  - **Free Players:** Percentage of players who rarely make purchases.
+  - **Spenders:** Percentage of players who occasionally make purchases.
+  - **High Spenders (Whales):** Percentage of players who frequently make purchases.
+
+- **Churn Settings:**
+
+  - **Player Churn Rate (%):** Base probability that a dissatisfied player will leave the game.
+  - **Progression Satisfaction Weight:** Importance of game progression in player satisfaction.
+  - **Spending Satisfaction Weight:** Importance of spending in player satisfaction.
+
+- **Learning Rate:**
+
+  - Rate at which players adapt their behaviour based on experiences.
+
+- **Rewards:**
+
+  - **Daily Reward (Credits):** Credits awarded daily to players.
+  - **Level Completion Reward (Credits):** Credits awarded upon level completion.
+  - **Milestone Reward (Credits):** Credits awarded when reaching milestones.
+  - **Milestone Interval Type:** Frequency of milestones (`linear` or `fibonacci`).
+
+- **XP Rewards:**
+
+  - **XP per Daily Reward:** Experience points awarded daily.
+  - **XP per Level Completion:** Experience points awarded upon level completion.
+  - **XP per Milestone:** Experience points awarded when reaching milestones.
+
+- **In-App Purchases:**
+
+  - **In-App Purchase Probability when Out of Credits (%):** Chance of making a purchase when unable to play.
+  - **Average Revenue per Purchase ($):** Revenue generated per purchase.
+  - **Credits per Purchase:** Credits received per purchase.
+
+- **Boosters:**
+
+  - **Booster Cost (Credits):** Cost of purchasing a booster.
+  - **Booster Purchase Probability (%):** Chance of purchasing a booster.
+
+- **Gameplay:**
+
+  - **Daily Play Probability (%):** Base chance of a player deciding to play each day.
+  - **Cost per Play (Credits):** Credits required to play a level.
+
+### Presets
+
+The simulator includes several presets representing common game scenarios:
+
+1. **Default (Balanced Game):** A well-balanced game with moderate engagement, monetisation, and churn rates.
+
+2. **High Engagement:**
+
+   - **Description:** Players are highly engaged, play frequently, and are less likely to churn.
+   - **Key Adjustments:** Increased play probability, decreased churn rate, increased learning rate.
+
+3. **Low Monetization:**
+
+   - **Description:** Players are engaged but less willing to spend money.
+   - **Key Adjustments:** Decreased in-app purchase probability and revenue per purchase.
+
+4. **High Monetization:**
+
+   - **Description:** Players are more willing to spend money, resulting in higher revenue.
+   - **Key Adjustments:** Increased in-app purchase probability and revenue per purchase.
+
+5. **High Churn:**
+
+   - **Description:** Players are disengaging quickly, leading to high churn rates.
+   - **Key Adjustments:** Increased churn rate, decreased play probability.
+
+6. **Generous Rewards:**
+
+   - **Description:** The game offers generous rewards, which may affect player satisfaction and spending behaviour.
+   - **Key Adjustments:** Increased rewards and XP, decreased costs.
+
+7. **Hard Progression:**
+
+   - **Description:** Progression is more challenging, potentially increasing spending but risking higher churn.
+   - **Key Adjustments:** Increased costs, decreased rewards, adjusted satisfaction weights.
+
+---
+
+## Simulation Outputs
+
+### Dashboard Metrics
+
+- **Day:** Current day in the simulation.
+- **Revenue:** Total revenue generated from in-app purchases.
+- **Purchases:** Total number of in-app purchases made.
+- **Credits Awarded:** Total credits awarded to players.
+- **Credits Spent:** Total credits spent by players.
+- **Boosters Used:** Total number of boosters purchased.
+- **Levels Completed:** Total levels completed by players.
+- **Milestones Reached:** Total milestones achieved.
+- **XP Earned:** Total experience points accumulated.
+
+### Charts
+
+- **Credits Awarded Chart:** Total credits awarded over time.
+- **Active Players Chart:** Number of active players each day.
+- **Credits Spent Chart:** Total credits spent over time.
+
+### Player Details
+
+- **Individual Stats:** Each player displays:
+  - **Type:** Free Player, Spender, or High Spender.
+  - **Credits:** Current credits.
+  - **XP:** Experience points accumulated.
+  - **Levels Completed:** Number of levels completed.
+  - **Boosters Used:** Number of boosters purchased.
+  - **Purchases:** Number of in-app purchases made.
+  - **Milestones Reached:** Number of milestones achieved.
+  - **Dollars Spent:** Total amount spent on in-app purchases.
+  - **Probabilities:** Current play, IAP, and booster probabilities.
+  - **Churned:** Whether the player has left the game.
+  - **Satisfaction:** Current satisfaction level.
+
+---
+
+## Customisation
+
+You can further customize the simulator by:
+
+- **Modifying Presets:** Add or adjust presets in the `simulation.js` file under the `presets` object.
+- **Adjusting Player Types:** Change player type ratios and behavior probabilities.
+- **Tweaking Game Mechanics:** Experiment with different costs, rewards, and progression mechanics.
+
+---
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Acknowledgements
+
+- **Chart.js:** For providing an excellent charting library.
+- **OpenAI's ChatGPT:** Assisted in generating and refining code and documentation.
+- **Contributors:** Thanks to everyone who has contributed to improving this simulator.
+
+---
+
+**Note:** This simulator is a simplified model and may not capture all real-world complexities. It is intended for educational and exploratory purposes. Users should consider additional factors and data when applying insights to actual game development.
+
+---
