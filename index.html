@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Mechanics Simulation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body onload="loadPreset()">
+    <div class="container">
+        <h1>F2P Simulator</h1>
+        <div class="controls">
+            <!-- Simulation Settings -->
+            <div class="section">
+                <h2>Simulation Settings</h2>
+                <label title="Select a preset configuration for the simulation.">
+                    Preset:
+                    <select id="presetSelector" onchange="loadPreset()">
+                        <option value="Default">Default (Balanced Game)</option>
+                        <option value="High Engagement">High Engagement</option>
+                        <option value="Low Monetization">Low Monetization</option>
+                        <option value="High Monetization">High Monetization</option>
+                        <option value="High Churn">High Churn</option>
+                        <option value="Generous Rewards">Generous Rewards</option>
+                        <option value="Hard Progression">Hard Progression</option>
+                    </select>
+                </label>
+                <label title="The number of players participating in the simulation.">
+                    Player Count:
+                    <input type="number" id="playerCount" value="24" min="1">
+                </label>
+                <label title="The number of days the simulation will run.">
+                    Simulation Days:
+                    <input type="number" id="simulationDays" value="30" min="1">
+                </label>
+            </div>
+            <!-- Player Type Ratios -->
+            <div class="section">
+                <h2>Player Type Ratios (%)</h2>
+                <label title="Percentage of Free Players in the simulation.">
+                    Free Players:
+                    <input type="number" id="freePlayerRatio" value="80" min="0" max="100">
+                </label>
+                <label title="Percentage of Spenders in the simulation.">
+                    Spenders:
+                    <input type="number" id="spenderRatio" value="15" min="0" max="100">
+                </label>
+                <label title="Percentage of High Spenders (Whales) in the simulation.">
+                    High Spenders (Whales):
+                    <input type="number" id="whaleRatio" value="5" min="0" max="100">
+                </label>
+                <div id="ratioErrorMessage" class="error-message"></div>
+            </div>
+            <!-- Churn Settings -->
+            <div class="section">
+                <h2>Churn Settings</h2>
+                <label title="The base percentage chance that a player will stop playing each day, influenced by their satisfaction level.">
+                    Player Churn Rate (%):
+                    <input type="number" id="baseChurnRate" value="10" min="0" max="100">
+                </label>
+                <label title="The weight of progression in calculating player satisfaction (0 to 1).">
+                    Progression Satisfaction Weight:
+                    <input type="number" id="progressionSatisfactionWeight" value="0.5" step="0.1" min="0" max="1">
+                </label>
+                <label title="The weight of spending in calculating player satisfaction (0 to 1).">
+                    Spending Satisfaction Weight:
+                    <input type="number" id="spendingSatisfactionWeight" value="0.5" step="0.1" min="0" max="1">
+                </label>
+                <div id="satisfactionWeightErrorMessage" class="error-message"></div>
+            </div>
+            <!-- Learning Rate -->
+            <div class="section">
+                <h2>Learning Rate</h2>
+                <label title="The rate at which players adapt their behavior based on experiences.">
+                    Learning Rate:
+                    <input type="number" id="learningRate" value="0.01" step="0.001" min="0" max="1">
+                </label>
+            </div>
+            <!-- Rewards -->
+            <div class="section">
+                <h2>Rewards</h2>
+                <label title="The amount of credits awarded to each player daily.">
+                    Daily Reward (Credits):
+                    <input type="number" id="dailyReward" value="10" min="0">
+                </label>
+                <label title="The amount of credits awarded to a player for completing a level.">
+                    Level Completion Reward (Credits):
+                    <input type="number" id="levelCompletionReward" value="5" min="0">
+                </label>
+                <label title="The amount of credits awarded when a player reaches a milestone.">
+                    Milestone Reward (Credits):
+                    <input type="number" id="milestoneReward" value="50" min="0">
+                </label>
+                <label title="Determines the frequency of milestones. 'Linear' means milestones occur at regular intervals; 'Fibonacci' means intervals increase following the Fibonacci sequence.">
+                    Milestone Interval Type:
+                    <select id="milestoneIntervalType">
+                        <option value="linear">Linear</option>
+                        <option value="fibonacci">Fibonacci</option>
+                    </select>
+                </label>
+            </div>
+            <!-- XP Rewards -->
+            <div class="section">
+                <h2>XP Rewards</h2>
+                <label title="The amount of experience points (XP) awarded to each player daily.">
+                    XP per Daily Reward:
+                    <input type="number" id="xpPerDailyReward" value="10" min="0">
+                </label>
+                <label title="The amount of experience points (XP) awarded for completing a level.">
+                    XP per Level Completion:
+                    <input type="number" id="xpPerLevelCompletion" value="20" min="0">
+                </label>
+                <label title="The amount of experience points (XP) awarded when a player reaches a milestone.">
+                    XP per Milestone:
+                    <input type="number" id="xpPerMilestone" value="100" min="0">
+                </label>
+            </div>
+            <!-- In-App Purchases -->
+            <div class="section">
+                <h2>In-App Purchases</h2>
+                <label title="The base chance that a player will make a purchase when they cannot play due to insufficient credits.">
+                    In-App Purchase Probability when Out of Credits (%):
+                    <input type="number" id="baseIapProbability" value="10" min="0" max="100">
+                </label>
+                <label title="The average revenue generated per in-app purchase (in dollars).">
+                    Average Revenue per Purchase ($):
+                    <input type="number" id="revenuePerPurchase" value="4.99" step="0.01" min="0">
+                </label>
+                <label title="The amount of credits awarded to a player for making an in-app purchase.">
+                    Credits per Purchase:
+                    <input type="number" id="creditsPerPurchase" value="500" min="1">
+                </label>
+            </div>
+            <!-- Boosters -->
+            <div class="section">
+                <h2>Boosters</h2>
+                <label title="The cost (in credits) for a player to purchase a booster.">
+                    Booster Cost (Credits):
+                    <input type="number" id="boosterCost" value="10" min="0">
+                </label>
+                <label title="The base chance that a player will buy a booster when they have enough credits.">
+                    Booster Purchase Probability (%):
+                    <input type="number" id="baseBoosterProbability" value="10" min="0" max="100">
+                </label>
+            </div>
+            <!-- Gameplay -->
+            <div class="section">
+                <h2>Gameplay</h2>
+                <label title="The base chance that a player will decide to play on a given day.">
+                    Daily Play Probability (%):
+                    <input type="number" id="basePlayProbability" value="70" min="0" max="100">
+                </label>
+                <label title="The cost (in credits) for a player to play a level.">
+                    Cost per Play (Credits):
+                    <input type="number" id="costPerPlay" value="5" min="0">
+                </label>
+            </div>
+            <button onclick="runSimulation()">Run Simulation</button>
+        </div>
+        <!-- Simulation Dashboard -->
+        <h2>Simulation Dashboard</h2>
+        <p id="currentDay">Day: 0</p>
+        <div id="dashboard">
+            <div class="dashboard-section">
+                <h3>Revenue</h3>
+                <p id="totalRevenue">$0</p>
+            </div>
+            <div class="dashboard-section">
+                <h3>Purchases</h3>
+                <p id="totalPurchases">0</p>
+            </div>
+            <div class="dashboard-section">
+                <h3>Credits Awarded</h3>
+                <p id="totalCreditsAwarded">0</p>
+            </div>
+            <div class="dashboard-section">
+                <h3>Credits Spent</h3>
+                <p id="totalCreditsSpent">0</p>
+            </div>
+            <div class="dashboard-section">
+                <h3>Boosters Used</h3>
+                <p id="totalBoosters">0</p>
+            </div>
+            <div class="dashboard-section">
+                <h3>Levels Completed</h3>
+                <p id="totalLevels">0</p>
+            </div>
+            <div class="dashboard-section">
+                <h3>Milestones Reached</h3>
+                <p id="totalMilestones">0</p>
+            </div>
+            <div class="dashboard-section">
+                <h3>XP Earned</h3>
+                <p id="totalXP">0</p>
+            </div>
+        </div>
+        <!-- Charts -->
+        <h2>Charts</h2>
+        <div class="chart-container">
+            <div class="chart-item">
+                <canvas id="creditsAwardedChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="activePlayersChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="creditsSpentChart"></canvas>
+            </div>
+        </div>
+        <!-- Players Canvas -->
+        <h2>Players</h2>
+        <canvas id="simulationCanvas"></canvas>
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="simulation.js"></script>
+    </div>
+</body>
+</html>
